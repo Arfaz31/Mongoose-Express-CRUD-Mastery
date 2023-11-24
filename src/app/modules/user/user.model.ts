@@ -5,6 +5,8 @@ import {
   tUserOrder,
   tUsers,
 } from './user.interface';
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 const fullNameSchema = new Schema<tFullNameOfUser>({
   firstName: {
@@ -42,9 +44,11 @@ const userOrderSchema = new Schema<tUserOrder>({
 const userSchema = new Schema<tUsers>({
   userId: {
     type: Number,
+    unique: true,
   },
   userName: {
     type: String,
+    unique: true,
   },
   password: {
     type: String,
@@ -69,7 +73,24 @@ const userSchema = new Schema<tUsers>({
   },
   orders: {
     type: [userOrderSchema],
+    default: undefined,
   },
+});
+
+userSchema.methods.toJSON = function () {
+  const userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
+
+userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
 });
 
 export const userModel = model<tUsers>('user', userSchema);
