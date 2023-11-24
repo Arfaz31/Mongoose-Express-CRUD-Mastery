@@ -8,38 +8,47 @@ import {
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const fullNameSchema = new Schema<tFullNameOfUser>({
-  firstName: {
-    type: String,
+const fullNameSchema = new Schema<tFullNameOfUser>(
+  {
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
   },
-  lastName: {
-    type: String,
-  },
-});
+  { _id: false },
+);
 
-const userAddressSchema = new Schema<tUserAddress>({
-  street: {
-    type: String,
+const userAddressSchema = new Schema<tUserAddress>(
+  {
+    street: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
   },
-  city: {
-    type: String,
-  },
-  country: {
-    type: String,
-  },
-});
+  { _id: false },
+);
 
-const userOrderSchema = new Schema<tUserOrder>({
-  productName: {
-    type: String,
+const userOrderSchema = new Schema<tUserOrder>(
+  {
+    productName: {
+      type: String,
+    },
+    price: {
+      type: Number,
+    },
+    quantity: {
+      type: Number,
+    },
   },
-  price: {
-    type: Number,
-  },
-  quantity: {
-    type: Number,
-  },
-});
+  { _id: false },
+);
 
 const userSchema = new Schema<tUsers>({
   userId: {

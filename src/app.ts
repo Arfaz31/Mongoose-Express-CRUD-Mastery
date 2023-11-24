@@ -10,6 +10,8 @@ app.use(cors());
 
 //application routes
 app.use('/POST/api', userRoutes);
+app.use('/GET/api', userRoutes);
+app.use('/GET/api/users', userRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
