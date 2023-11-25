@@ -72,11 +72,9 @@ const getSingleUser = async (req: Request, res: Response) => {
 const putUpdateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    // const userIdInNumber = parseInt(userId);
+    const userIdInNumber = parseInt(userId);
     const { user: userData } = req.body;
-    const zodValidation = userValidationSchema.parse(userData);
-
-    const result = await userServices.updateUsersDB(userId, zodValidation);
+    const result = await userServices.updateUsersDB(userIdInNumber, userData);
     res.status(200).json({
       success: true,
       message: 'User updated successfully!',

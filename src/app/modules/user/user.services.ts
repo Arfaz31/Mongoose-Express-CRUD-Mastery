@@ -30,8 +30,8 @@ const getSingleUsersDB = async (userId: number) => {
   }
 };
 
-const updateUsersDB = async (userId: string, userData: tUsers) => {
-  const result = await users.findByIdAndUpdate(userId, userData, {
+const updateUsersDB = async (userId: number, userData: tUsers) => {
+  const result = await users.findOneAndUpdate({ userId }, userData, {
     new: true,
     runValidators: true,
   });
@@ -39,7 +39,7 @@ const updateUsersDB = async (userId: string, userData: tUsers) => {
 };
 
 const deleteUsersDB = async (userId: number) => {
-  const result = await users.findByIdAndDelete(userId);
+  const result = await users.findOneAndDelete({ userId });
   return result;
 };
 
