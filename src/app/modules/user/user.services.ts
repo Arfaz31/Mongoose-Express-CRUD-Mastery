@@ -78,6 +78,35 @@ const GetAllOrdersFromSpecificUsersDB = async (userId: number) => {
   }
 };
 
+//total price of order for a specific users
+const GetTotalPriceOrdersUsersDB = async (userId: number) => {
+  if (await users.isUserExists(userId)) {
+    const result = await users.aggregate([
+      {
+        $match: { userId: userId },
+      },
+      { $unwind: '$orders' },
+      {
+        $group: {
+          _id: '$userId',
+          totalPrice: {
+            $sum: { $multiply: ['$orders.price', '$orders.quantity'] },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalPrice: 1,
+        },
+      },
+    ]);
+    return result;
+  } else {
+    throw new Error('User not found');
+  }
+};
+
 export const userServices = {
   createUserDB,
   getAllUsersDB,
@@ -86,4 +115,5 @@ export const userServices = {
   deleteUsersDB,
   orderDataPutDB,
   GetAllOrdersFromSpecificUsersDB,
+  GetTotalPriceOrdersUsersDB,
 };

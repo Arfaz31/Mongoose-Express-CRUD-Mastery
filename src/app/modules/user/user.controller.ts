@@ -167,6 +167,34 @@ const getOrderDataFromSpecificUser = async (req: Request, res: Response) => {
   }
 };
 
+//Get total price of orders
+const getTotalPriceOfOrdersFromSpecificUser = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const { userId } = req.params;
+    const userIdInNumber = parseInt(userId);
+    const result =
+      await userServices.GetTotalPriceOrdersUsersDB(userIdInNumber);
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
+  }
+};
+
 export const userController = {
   createUser,
   getAllUser,
@@ -175,4 +203,5 @@ export const userController = {
   deleteUsersDB,
   orderDataUpdate,
   getOrderDataFromSpecificUser,
+  getTotalPriceOfOrdersFromSpecificUser,
 };
