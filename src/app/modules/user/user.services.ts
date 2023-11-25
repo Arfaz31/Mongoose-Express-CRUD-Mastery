@@ -26,21 +26,29 @@ const getSingleUsersDB = async (userId: number) => {
     const result = await users.findOne({ userId });
     return result;
   } else {
-    throw new Error('user already exists');
+    throw new Error('User not found');
   }
 };
 
 const updateUsersDB = async (userId: number, userData: tUsers) => {
-  const result = await users.findOneAndUpdate({ userId }, userData, {
-    new: true,
-    runValidators: true,
-  });
-  return result;
+  if (await users.isUserExists(userId)) {
+    const result = await users.findOneAndUpdate({ userId }, userData, {
+      new: true,
+      runValidators: true,
+    });
+    return result;
+  } else {
+    throw new Error('User not found');
+  }
 };
 
 const deleteUsersDB = async (userId: number) => {
-  const result = await users.findOneAndDelete({ userId });
-  return result;
+  if (await users.isUserExists(userId)) {
+    const result = await users.findOneAndDelete({ userId });
+    return result;
+  } else {
+    throw new Error('User not found');
+  }
 };
 
 export const userServices = {

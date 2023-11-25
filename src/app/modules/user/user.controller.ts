@@ -103,10 +103,11 @@ const deleteUsersDB = async (req: Request, res: Response) => {
       success: true,
       message: 'User deleted successfully!',
     });
-  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'User not found',
+      message: err.message,
       error: {
         code: 404,
         description: 'User not found!',
