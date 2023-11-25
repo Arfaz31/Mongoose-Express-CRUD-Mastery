@@ -1,20 +1,45 @@
 import { tUsers } from './user.interface';
-import { userModel } from './user.model';
+import { users } from './user.model';
 
 const createUserDB = async (userData: tUsers) => {
-  const result = await userModel.create(userData);
+  if (await users.isUserExists(userData.userId)) {
+    throw new Error('user already exists');
+  }
+  const result = await users.create(userData);
+
   return result;
 };
 
 const getAllUsersDB = async () => {
-  const result = await userModel
-    .find()
-    .select({ userName: 1, fullName: 1, age: 1, email: 1, address: 1 });
+  const result = await users.find().select({
+    userName: 1,
+    fullName: 1,
+    age: 1,
+    email: 1,
+    address: 1,
+  });
   return result;
 };
 
 const getSingleUsersDB = async (userId: number) => {
-  const result = await userModel.findOne({ userId });
+  if (await users.isUserExists(userId)) {
+    const result = await users.findOne({ userId });
+    return result;
+  } else {
+    throw new Error('user already exists');
+  }
+};
+
+const updateUsersDB = async (userId: string, userData: tUsers) => {
+  const result = await users.findByIdAndUpdate(userId, userData, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
+
+const deleteUsersDB = async (userId: number) => {
+  const result = await users.findByIdAndDelete(userId);
   return result;
 };
 
@@ -22,4 +47,6 @@ export const userServices = {
   createUserDB,
   getAllUsersDB,
   getSingleUsersDB,
+  updateUsersDB,
+  deleteUsersDB,
 };

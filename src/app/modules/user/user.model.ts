@@ -4,6 +4,7 @@ import {
   tUserAddress,
   tUserOrder,
   tUsers,
+  userTypeModel,
 } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
@@ -50,7 +51,7 @@ const userOrderSchema = new Schema<tUserOrder>(
   { _id: false },
 );
 
-const userSchema = new Schema<tUsers>({
+const userSchema = new Schema<tUsers, userTypeModel>({
   userId: {
     type: Number,
     unique: true,
@@ -102,4 +103,9 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-export const userModel = model<tUsers>('user', userSchema);
+userSchema.statics.isUserExists = async function (userId: number) {
+  const existingUser = await users.findOne({ userId });
+  return existingUser;
+};
+
+export const users = model<tUsers, userTypeModel>('user', userSchema);

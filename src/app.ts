@@ -12,6 +12,8 @@ app.use(cors());
 app.use('/POST/api', userRoutes);
 app.use('/GET/api', userRoutes);
 app.use('/GET/api/users', userRoutes);
+app.use('PUT/api/users', userRoutes);
+app.use('DELETE/api/users', userRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
