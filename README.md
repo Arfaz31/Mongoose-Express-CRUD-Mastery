@@ -1,0 +1,1 @@
+### At first Create a new Node.js Express project. Then Initialize npm for package.json. Set up a MongoDB database using Mongoose for storing user and order data. Install others necessary packages like, cors,dotenv,eslint,prettier,zod,bcrypt etc for writing code running the application properly.
