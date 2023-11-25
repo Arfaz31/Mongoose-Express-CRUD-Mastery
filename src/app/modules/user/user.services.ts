@@ -101,7 +101,7 @@ const GetTotalPriceOrdersUsersDB = async (userId: number) => {
         },
       },
     ]);
-    return result;
+    return result[0];
   } else {
     throw new Error('User not found');
   }
