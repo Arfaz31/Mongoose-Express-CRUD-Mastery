@@ -51,10 +51,39 @@ const deleteUsersDB = async (userId: number) => {
   }
 };
 
+//update order data
+const orderDataPutDB = async (userId: number, userOrder: tUsers) => {
+  if (await users.isUserExists(userId)) {
+    const result = await users.updateOne(
+      { userId },
+      { $set: { orders: userOrder.orders } },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    return result;
+  } else {
+    throw new Error('User not found');
+  }
+};
+
+//GetAllOrdersFromSpecificUsersDB
+const GetAllOrdersFromSpecificUsersDB = async (userId: number) => {
+  if (await users.isUserExists(userId)) {
+    const result = await users.findOne({ userId }).select({ orders: 1 });
+    return result;
+  } else {
+    throw new Error('User not found');
+  }
+};
+
 export const userServices = {
   createUserDB,
   getAllUsersDB,
   getSingleUsersDB,
   updateUsersDB,
   deleteUsersDB,
+  orderDataPutDB,
+  GetAllOrdersFromSpecificUsersDB,
 };

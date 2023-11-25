@@ -102,6 +102,57 @@ const deleteUsersDB = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'User deleted successfully!',
+      data: 'null',
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
+  }
+};
+
+//order data update
+const orderDataUpdate = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const userIdInNumber = parseInt(userId);
+    const { user: userOrderData } = req.body;
+    await userServices.orderDataPutDB(userIdInNumber, userOrderData);
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: 'null',
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
+  }
+};
+
+// Retrieve all order from a specific user
+const getOrderDataFromSpecificUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const userIdInNumber = parseInt(userId);
+    const result =
+      await userServices.GetAllOrdersFromSpecificUsersDB(userIdInNumber);
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
@@ -122,4 +173,6 @@ export const userController = {
   getSingleUser,
   putUpdateUser,
   deleteUsersDB,
+  orderDataUpdate,
+  getOrderDataFromSpecificUser,
 };

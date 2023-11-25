@@ -103,12 +103,6 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// userSchema.pre(/^find/, function (this: Query<tUsers, Document>, next) {
-//   this.find({ isDeleted: { $ne: true } });
-
-//   next();
-// });
-
 userSchema.statics.isUserExists = async function (userId: number) {
   const existingUser = await users.findOne({ userId });
   return existingUser;
