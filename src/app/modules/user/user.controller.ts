@@ -4,7 +4,7 @@ import userValidationSchema from './validation';
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
+    const userData = req.body;
 
     const zodValidation = userValidationSchema.parse(userData);
 
@@ -71,9 +71,9 @@ const getSingleUser = async (req: Request, res: Response) => {
 // putUpdateUser
 const putUpdateUser = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId;
     const userIdInNumber = parseInt(userId);
-    const { user: userData } = req.body;
+    const userData = req.body;
     const result = await userServices.updateUsersDB(userIdInNumber, userData);
     res.status(200).json({
       success: true,
@@ -95,7 +95,7 @@ const putUpdateUser = async (req: Request, res: Response) => {
 //deleteUser
 const deleteUsersDB = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId;
     const userIdInNumber = parseInt(userId);
 
     await userServices.deleteUsersDB(userIdInNumber);
@@ -120,9 +120,9 @@ const deleteUsersDB = async (req: Request, res: Response) => {
 //order data update
 const orderDataUpdate = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId;
     const userIdInNumber = parseInt(userId);
-    const { user: userOrderData } = req.body;
+    const userOrderData = req.body;
     await userServices.orderDataPutDB(userIdInNumber, userOrderData);
     res.status(200).json({
       success: true,
@@ -145,7 +145,7 @@ const orderDataUpdate = async (req: Request, res: Response) => {
 // Retrieve all order from a specific user
 const getOrderDataFromSpecificUser = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId;
     const userIdInNumber = parseInt(userId);
     const result =
       await userServices.GetAllOrdersFromSpecificUsersDB(userIdInNumber);
@@ -173,7 +173,7 @@ const getTotalPriceOfOrdersFromSpecificUser = async (
   res: Response,
 ) => {
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId;
     const userIdInNumber = parseInt(userId);
     const result =
       await userServices.GetTotalPriceOrdersUsersDB(userIdInNumber);
