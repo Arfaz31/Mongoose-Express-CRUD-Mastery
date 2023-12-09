@@ -56,7 +56,7 @@ const userSchema = new Schema<tUsers, userTypeModel>({
     type: Number,
     unique: true,
   },
-  userName: {
+  username: {
     type: String,
     unique: true,
   },

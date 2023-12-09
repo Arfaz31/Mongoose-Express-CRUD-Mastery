@@ -19,7 +19,7 @@ const userOrderValidationSchema = z.object({
 
 const userValidationSchema = z.object({
   userId: z.number().safe(),
-  userName: z.string(),
+  username: z.string(),
   password: z.string(),
   fullName: fullNameValidationSchema,
   age: z.number().int().positive(),

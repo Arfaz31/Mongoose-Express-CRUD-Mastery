@@ -19,7 +19,7 @@ export type tUserOrder = {
 
 export type tUsers = {
   userId: number;
-  userName: string;
+  username: string;
   password: string;
   fullName: tFullNameOfUser;
   age: number;
